@@ -1,13 +1,5 @@
 import { Schema, model } from 'mongoose';
-
-interface ProjectInterface {
-    projectID: string;
-    title: string;
-    description: string;
-    userID: string;
-    createdAt: Date;
-    updatedAt: Date;
-};
+import { ProjectInterface } from '../../util/interfaces';
 
 const ProjectSchema = new Schema<ProjectInterface>({
     projectID: {

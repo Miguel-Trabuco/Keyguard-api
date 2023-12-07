@@ -1,13 +1,6 @@
 import { Schema, model } from 'mongoose';
+import { UserInteface } from '../../util/interfaces';
 
-interface UserInteface {
-    userID: string;
-    username: string;
-    email: string;
-    passwordHash: string;
-    createdAt: Date;
-    updatedAt: Date;
-};
 
 const UserSchema = new Schema<UserInteface>({
     userID: {

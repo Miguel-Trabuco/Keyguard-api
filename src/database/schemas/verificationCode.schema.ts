@@ -1,10 +1,5 @@
 import { Schema, model } from 'mongoose';
-
-interface VerificationCodeInterface {
-    email: string;
-    code: string;
-    createdAt: Date;
-};
+import { VerificationCodeInterface } from '../../util/interfaces';
 
 const VerificationCodeSchema = new Schema<VerificationCodeInterface>({
     email: {
