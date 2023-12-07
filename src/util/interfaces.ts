@@ -21,3 +21,13 @@ export interface VerificationCodeInterface {
     code: string;
     createdAt?: Date;
 };
+
+export interface TransporterInterface {
+    host: string,
+    port: number,
+    secure: boolean,
+    auth: {
+        user: string,
+        pass: string
+    },
+};

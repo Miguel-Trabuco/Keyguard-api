@@ -4,23 +4,35 @@ import { UserInteface } from "../../util/interfaces";
 class MongooseService {
 
     async createUser(userData: UserInteface) {
-        await userModel.create(userData);
+        const isCreated = await userModel.create(userData);
+        if (!isCreated) {
+            return false;
+        }
+        return true;
     }
 
     async findUser(findKey: object) {
         const userDocument = await userModel.findOne({ findKey });
         if (!userDocument) {
-            return null;
+            return false;
         };
         return userDocument;
     }
 
     async updateUser(userID: object, update: object) {
-        await userModel.findOneAndUpdate({ userID }, update);
+        const isUpdated = await userModel.findOneAndUpdate({ userID }, update);
+        if (!isUpdated) {
+            return false;
+        }
+        return true;
     }
 
     async deleteUser(userID: object) {
-        await userModel.findOneAndDelete({ userID });
+        const isDeleted = await userModel.findOneAndDelete({ userID });
+        if (!isDeleted) {
+            return false;
+        }
+        return true;
     }
 }
 
