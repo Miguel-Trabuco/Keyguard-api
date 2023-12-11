@@ -3,20 +3,40 @@ import { jwtService } from "../services/jwtService/jwtService";
 import { bcryptService } from "../services/bcryptService/bcryptService";
 import { Request, Response } from "express";
 
-const createUserController = async (req: Request, res: Response) => {
+export const createUserController = async (req: Request, res: Response) => {
     const { email = null, username = null, newPassword = null, password} = req.body;
     const token: string = req.cookies.token;
 
-    const decoded = await jwtService.verifyToken(token);
-
-    if (!decoded) {
-        return res.status(401).json({ message: 'Unauthorized' });
+    if (!email && !username && !newPassword) {
+        return res.status(400).json({ message: "No data provided" });
     }
 
-    if (!email || !username || !password || !newPassword) {
-        return res.status(400).json({ message: 'Email, username or password are required' });
+    const userID = await jwtService.verifyToken(token);
+
+    if (!userID) {
+        return res.status(401).json({ message: "Unauthorized" });
     }
 
-    
+    const userDoc = await mongooseService.findUser({userID});
+
+    if (!userDoc) {
+        return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    if(password !== userDoc.passwordHash){
+        return res.status(401).json({ message: "Wrong Password" });
+    }
+
+    switch (true) {
+        case email:
+            await mongooseService.updateUser({userID}, {email});
+        case username:
+            await mongooseService.updateUser({userID}, {username});
+        case newPassword:
+            const hashedPassword = await bcryptService.hashPassword(newPassword);
+            await mongooseService.updateUser({userID}, {hashedPassword});
+        default:
+            return res.status(200).json({ message: "User updated" });
+    }
 
 }

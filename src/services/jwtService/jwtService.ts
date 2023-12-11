@@ -11,11 +11,11 @@ class JWTService {
     }
 
     verifyToken(token: string) {
-        const decoded = jwt.verify(token, this.SECRET);
-        if (!decoded) {
+        const userID = jwt.verify(token, this.SECRET);
+        if (!userID) {
             return false;
         }
-        return decoded;
+        return userID;
     }
 
     constructor() {
