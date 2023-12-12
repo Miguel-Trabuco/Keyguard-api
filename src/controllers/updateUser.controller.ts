@@ -4,7 +4,7 @@ import { bcryptService } from "../services/bcryptService/bcryptService";
 import { Request, Response } from "express";
 
 export const updateUserController = async (req: Request, res: Response) => {
-    const { email, username, newPassword, password, token} = req.body;
+    const { email, username, newPassword, password, token}: {email: string, username: string, newPassword: string, password: string, token: string} = req.body;
 
     if (!email && !username && !newPassword) {
         return res.status(400).json({ message: "No data provided" });
@@ -29,15 +29,16 @@ export const updateUserController = async (req: Request, res: Response) => {
     }
     
     switch (true) {
-        case email:
+        case email !== undefined:
             await mongooseService.updateUser({userID}, {email});
-        case username:
+        case username !== undefined:
             console.log('entrou no case')
             await mongooseService.updateUser({userID}, {username});
-        case newPassword:
+        case newPassword !== undefined:
             const hashedPassword = await bcryptService.hashPassword(newPassword);
             await mongooseService.updateUser({userID}, {hashedPassword});
         default:
+            await mongooseService.updateUser({userID}, {updateAt: new Date()});
             return res.status(200).json({ message: "User updated" });
     }
 }
