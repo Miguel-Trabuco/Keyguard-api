@@ -12,7 +12,7 @@ class MongooseService {
     }
 
     async findUser(findKey: object) {
-        const userDocument = await userModel.findOne({ findKey });
+        const userDocument = await userModel.findOne(findKey);
         if (!userDocument) {
             return false;
         };
@@ -20,15 +20,19 @@ class MongooseService {
     }
 
     async updateUser(userID: object, update: object) {
-        const isUpdated = await userModel.findOneAndUpdate({ userID }, update);
+        console.log('passou aqui');
+        console.log(userID, update);
+        const isUpdated = await userModel.findOneAndUpdate( userID, update);
+        console.log(isUpdated);
         if (!isUpdated) {
             return false;
         }
+        console.log('terminou aqui')
         return true;
     }
 
     async deleteUser(userID: object) {
-        const isDeleted = await userModel.findOneAndDelete({ userID });
+        const isDeleted = await userModel.findOneAndDelete(userID);
         if (!isDeleted) {
             return false;
         }

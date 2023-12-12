@@ -4,7 +4,6 @@ import { bcryptService } from "../services/bcryptService/bcryptService";
 import { v4 as uuidv4 } from 'uuid';
 import { Request, Response } from "express";
 import { UserInteface } from "../util/interfaces";
-const DISABLE_HTTPS = process.env.DISABLE_HTTPS;
 
 export const createUserController = async (req: Request, res: Response) => {
     const { email, username, password} = req.body;
@@ -13,7 +12,7 @@ export const createUserController = async (req: Request, res: Response) => {
         return res.status(400).json({ message: 'Email, username, password are required' });
     }
 
-    const userDocument: any = await mongooseService.findUser({ email });
+    const userDocument: any = await mongooseService.findUser({email});
 
     if (userDocument) {
         return res.status(400).json({ message: 'Email arealdy used' });
@@ -29,25 +28,19 @@ export const createUserController = async (req: Request, res: Response) => {
 
     const token = jwtService.createToken(userID);
 
-    const userDate: UserInteface = {
+    const userData: UserInteface = {
         userID,
         email,
         username,
         passwordHash: hashedPassword,
     };
 
-    const isCreated: boolean = await mongooseService.createUser(userDate);
+    const isCreated: boolean = await mongooseService.createUser(userData);
 
     if (!isCreated) {
         return res.status(500).json({ message: 'Internal Server Error' });
     }
 
-    let isSecure = true;
-
-    if (DISABLE_HTTPS) {
-        isSecure = false;
-    }
-
-    return res.status(201).cookie('token', token, { httpOnly: true,  secure: isSecure});
+    return res.status(201).json({token});
 
 }

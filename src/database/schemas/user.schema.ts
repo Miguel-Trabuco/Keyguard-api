@@ -6,7 +6,6 @@ const UserSchema = new Schema<UserInteface>({
     userID: {
         type: String,
         required: true,
-        unique: true,
     },
     username: {
         type: String,
@@ -15,7 +14,6 @@ const UserSchema = new Schema<UserInteface>({
     email: {
         type: String,
         required: true,
-        unique: true,
     },
     passwordHash: {
         type: String,

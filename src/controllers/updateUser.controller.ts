@@ -3,9 +3,8 @@ import { jwtService } from "../services/jwtService/jwtService";
 import { bcryptService } from "../services/bcryptService/bcryptService";
 import { Request, Response } from "express";
 
-export const createUserController = async (req: Request, res: Response) => {
-    const { email = null, username = null, newPassword = null, password} = req.body;
-    const token: string = req.cookies.token;
+export const updateUserController = async (req: Request, res: Response) => {
+    const { email, username, newPassword, password, token} = req.body;
 
     if (!email && !username && !newPassword) {
         return res.status(400).json({ message: "No data provided" });
@@ -23,14 +22,17 @@ export const createUserController = async (req: Request, res: Response) => {
         return res.status(401).json({ message: "Unauthorized" });
     }
 
-    if(password !== userDoc.passwordHash){
+    const isPasswordValid: boolean = await bcryptService.comparePassword(password, userDoc.passwordHash);
+
+    if (!isPasswordValid) {
         return res.status(401).json({ message: "Wrong Password" });
     }
-
+    
     switch (true) {
         case email:
             await mongooseService.updateUser({userID}, {email});
         case username:
+            console.log('entrou no case')
             await mongooseService.updateUser({userID}, {username});
         case newPassword:
             const hashedPassword = await bcryptService.hashPassword(newPassword);
@@ -38,5 +40,4 @@ export const createUserController = async (req: Request, res: Response) => {
         default:
             return res.status(200).json({ message: "User updated" });
     }
-
 }
