@@ -20,14 +20,10 @@ class MongooseService {
     }
 
     async updateUser(userID: object, update: object) {
-        console.log('passou aqui');
-        console.log(userID, update);
         const isUpdated = await userModel.findOneAndUpdate( userID, update);
-        console.log(isUpdated);
         if (!isUpdated) {
             return false;
         }
-        console.log('terminou aqui')
         return true;
     }
 

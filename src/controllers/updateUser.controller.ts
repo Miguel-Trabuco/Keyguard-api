@@ -10,6 +10,10 @@ export const updateUserController = async (req: Request, res: Response) => {
         return res.status(400).json({ message: "No data provided" });
     }
 
+    if (!password || !token) {
+        return res.status(400).json({message: "Unauthorized"});
+    }
+
     const userID = await jwtService.verifyToken(token);
 
     if (!userID) {
@@ -27,18 +31,19 @@ export const updateUserController = async (req: Request, res: Response) => {
     if (!isPasswordValid) {
         return res.status(401).json({ message: "Wrong Password" });
     }
-    
-    switch (true) {
-        case email !== undefined:
-            await mongooseService.updateUser({userID}, {email});
-        case username !== undefined:
-            console.log('entrou no case')
-            await mongooseService.updateUser({userID}, {username});
-        case newPassword !== undefined:
-            const hashedPassword = await bcryptService.hashPassword(newPassword);
-            await mongooseService.updateUser({userID}, {hashedPassword});
-        default:
-            await mongooseService.updateUser({userID}, {updateAt: new Date()});
-            return res.status(200).json({ message: "User updated" });
+
+    if (username) {
+        await mongooseService.updateUser({userID}, {username});
     }
+
+    if (newPassword) {
+        const hashedPassword = await bcryptService.hashPassword(newPassword);
+        await mongooseService.updateUser({userID}, {passwordHash: hashedPassword});
+    }
+
+    if(email) {
+        await mongooseService.updateUser({userID}, {email});
+    }
+
+    return res.status(200).json({message: "User updated"});
 }
