@@ -1,7 +1,7 @@
 import { userModel } from "../../database/schemas/user.schema";
 import { UserInteface } from "../../util/interfaces";
 
-class MongooseService {
+class UserMongooseService {
 
     async createUser(userData: UserInteface) {
         const isCreated = await userModel.create(userData);
@@ -36,4 +36,4 @@ class MongooseService {
     }
 }
 
-export const mongooseService = new MongooseService();
+export const userMongooseService = new UserMongooseService();

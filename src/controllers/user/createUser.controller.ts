@@ -1,18 +1,18 @@
-import { mongooseService } from "../services/mongooseService/userService";
-import { jwtService } from "../services/jwtService/jwtService";
-import { bcryptService } from "../services/bcryptService/bcryptService";
+import { userMongooseService } from "../../services/mongooseService/userService";
+import { jwtService } from "../../services/jwtService/jwtService";
+import { bcryptService } from "../../services/bcryptService/bcryptService";
 import { v4 as uuidv4 } from 'uuid';
 import { Request, Response } from "express";
-import { UserInteface } from "../util/interfaces";
+import { UserInteface } from "../../util/interfaces";
 
 export const createUserController = async (req: Request, res: Response) => {
-    const { email, username, password} = req.body;
+    const { email, username, password}: {email: string, username: string, password: string} = req.body;
 
     if (!email || !username || !password) {
         return res.status(400).json({ message: 'Email, username, password are required' });
     }
 
-    const userDocument: any = await mongooseService.findUser({email});
+    const userDocument: any = await userMongooseService.findUser({email});
 
     if (userDocument) {
         return res.status(400).json({ message: 'Email arealdy used' });
@@ -35,7 +35,7 @@ export const createUserController = async (req: Request, res: Response) => {
         passwordHash: hashedPassword,
     };
 
-    const isCreated: boolean = await mongooseService.createUser(userData);
+    const isCreated: boolean = await userMongooseService.createUser(userData);
 
     if (!isCreated) {
         return res.status(500).json({ message: 'Internal Server Error' });
