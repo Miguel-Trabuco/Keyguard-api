@@ -12,7 +12,7 @@ export const updateUserController = async (req: Request, res: Response) => {
         return res.status(401).json({ message: "unauthorized" });
     }
 
-    if (userDoc == 'wrong password') {
+    if (userDoc == 'Wrong password.') {
         return res.status(401).json({ message: userDoc });
     }
 
@@ -31,5 +31,5 @@ export const updateUserController = async (req: Request, res: Response) => {
         await userMongooseService.updateUser({userID}, {email});
     }
 
-    return res.status(200).json({message: "User updated"});
+    return res.status(200);
 }

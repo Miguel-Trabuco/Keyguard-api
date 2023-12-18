@@ -7,15 +7,6 @@ export interface UserInteface {
     updatedAt?: Date;
 };
 
-export interface ProjectInterface {
-    projectID: string;
-    title: string;
-    description: string;
-    userID: string;
-    createdAt?: Date;
-    updatedAt?: Date;
-};
-
 export interface VerificationCodeInterface {
     email: string;
     code: string;

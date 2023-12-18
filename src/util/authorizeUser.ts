@@ -23,7 +23,7 @@ export const authorizeUser = async (token: string | undefined, password: string 
     const isPasswordValid = await bcryptService.comparePassword(password, userDoc.passwordHash);
 
     if (!isPasswordValid) {
-        return 'wrong password';
+        return 'Wrong password.';
     }
 
     return userDoc;

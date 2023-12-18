@@ -12,14 +12,14 @@ export const getUserController = async (req: Request, res: Response) => {
         return res.status(401).json({ message: "unauthorized" });
     }
 
-    if (userDoc == 'wrong password') {
+    if (userDoc == 'Wrong password.') {
         return res.status(401).json({ message: userDoc });
     }
     
     const userInformation = {
         email: userDoc.email,
         name: userDoc.username,
-    }
+    };
 
     res.status(200).json(userInformation);
 }

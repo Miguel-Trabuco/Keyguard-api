@@ -12,7 +12,7 @@ export const deleteUserController = async (req: Request, res: Response) => {
         return res.status(401).json({ message: "unauthorized" });
     }
 
-    if (userDoc == 'wrong password') {
+    if (userDoc == 'Wrong password.') {
         return res.status(401).json({ message: userDoc });
     }
 
@@ -21,8 +21,8 @@ export const deleteUserController = async (req: Request, res: Response) => {
     const isDeleted = await userMongooseService.deleteUser({userID});
 
     if (!isDeleted) {
-        return res.status(500).json({ message: "Internal server error" });
+        return res.status(500).json({ message: "Internal server error." });
     }
 
-    return res.status(200).json({ message: "deleted"});
+    return res.status(200);
 }
