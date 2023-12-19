@@ -14,11 +14,11 @@ export interface VerificationCodeInterface {
 };
 
 export interface TransporterInterface {
-    host: string,
-    port: number,
-    secure: boolean,
+    host: string;
+    port: number;
+    secure: boolean;
     auth: {
         user: string,
         pass: string
-    },
+    };
 };

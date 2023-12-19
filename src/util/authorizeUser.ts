@@ -8,9 +8,9 @@ export const authorizeUser = async (token: string | undefined, password: string 
         return false;
     }
 
-    const userID = await jwtService.verifyToken(token);
+    const userID = jwtService.verifyToken(token);
 
-    if (!userID) {
+    if (userID === '') {
         return false;
     }
 

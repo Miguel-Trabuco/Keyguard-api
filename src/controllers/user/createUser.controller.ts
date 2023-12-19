@@ -4,7 +4,6 @@ import { bcryptService } from "../../services/bcryptService/bcryptService";
 import { v4 as uuidv4 } from 'uuid';
 import { Request, Response } from "express";
 import { UserInteface } from "../../util/interfaces";
-import { bool } from "random-js";
 
 export const createUserController = async (req: Request, res: Response) => {
     const { email, username, password}: {email: string, username: string, password: string} = req.body;

@@ -13,10 +13,11 @@ class JWTService {
     verifyToken(token: string) {
 
         try {
-            const userID = jwt.verify(token, this.SECRET);
-            return userID;
+            const payload = jwt.verify(token, this.SECRET);
+            const userID: string = payload as string;
+            return userID
         } catch (error) {
-            return false;
+            return '';
         }
 
         

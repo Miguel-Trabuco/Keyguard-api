@@ -20,7 +20,7 @@ class UserMongooseService {
     }
 
     async updateUser(userID: object, update: object) {
-        const isUpdated = await userModel.findOneAndUpdate( userID, update);
+        const isUpdated = await userModel.updateOne( userID, update);
         if (!isUpdated) {
             return false;
         }
@@ -28,7 +28,7 @@ class UserMongooseService {
     }
 
     async deleteUser(userID: object) {
-        const isDeleted = await userModel.findOneAndDelete(userID);
+        const isDeleted = await userModel.deleteOne(userID);
         if (!isDeleted) {
             return false;
         }
