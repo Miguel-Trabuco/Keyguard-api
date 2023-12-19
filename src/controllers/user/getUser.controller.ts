@@ -1,24 +1,25 @@
 import { Request, Response } from "express";
-import { authorizeUser } from "../../util/authorizeUser";
-import { UserInteface } from "../../util/interfaces";
+import { jwtService } from "../../services/jwtService/jwtService";
+import { userMongooseService } from "../../services/mongooseService/userService";
 
 export const getUserController = async (req: Request, res: Response) => {
-    const password: string | undefined = req.get('password');
-    const token: string | undefined = req.get('token');
+    const token = req.cookies.token || undefined
 
-    const userDoc: any = await authorizeUser(token, password, res);
+    const userID = jwtService.verifyToken(token);
 
-    if (!userDoc) {
-        return res.status(401).json({ message: "unauthorized" });
+    if (userID === '') {
+        return res.status(401).json({ message: "Unauthorized" })
     }
 
-    if (userDoc == 'Wrong password.') {
-        return res.status(401).json({ message: userDoc });
+    const userDocument = await userMongooseService.findUser({userID});
+
+    if (!userDocument) {
+        return res.status(500).json({ message: 'Internal server error.' });
     }
     
     const userInformation = {
-        email: userDoc.email,
-        name: userDoc.username,
+        email: userDocument.email,
+        name: userDocument.username,
     };
 
     res.status(200).json(userInformation);

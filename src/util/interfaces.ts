@@ -1,17 +1,18 @@
-export interface UserInteface {
+export interface UserInterface {
     userID: string;
     username: string;
     email: string;
     passwordHash: string;
+    verified: boolean;
     createdAt?: Date;
     updatedAt?: Date;
-};
+}
 
 export interface VerificationCodeInterface {
     email: string;
-    code: string;
+    code: number;
     createdAt?: Date;
-};
+}
 
 export interface TransporterInterface {
     host: string;
@@ -21,4 +22,4 @@ export interface TransporterInterface {
         user: string,
         pass: string
     };
-};
+}

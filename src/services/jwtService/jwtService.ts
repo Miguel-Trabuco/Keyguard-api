@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+
 const SECRET = process.env.JWT_SECRET;
 
 class JWTService {
@@ -6,22 +7,19 @@ class JWTService {
     SECRET!: string;
 
     createToken(userID: string) {
-        const token = jwt.sign(userID , this.SECRET);
-        return token;
+        return jwt.sign(userID, this.SECRET);
     }
 
     verifyToken(token: string) {
-
+        if (!token) {
+            return '';
+        }
         try {
-            const payload = jwt.verify(token, this.SECRET);
-            const userID: string = payload as string;
-            return userID
+            const userID = jwt.verify(token, this.SECRET);
+            return userID as string
         } catch (error) {
             return '';
         }
-
-        
-        
     }
 
     constructor() {

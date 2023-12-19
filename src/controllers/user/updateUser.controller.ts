@@ -1,35 +1,79 @@
 import { userMongooseService } from "../../services/mongooseService/userService";
-import { authorizeUser } from "../../util/authorizeUser";
+import {jwtService} from "../../services/jwtService/jwtService";
 import { bcryptService } from "../../services/bcryptService/bcryptService";
+import { sendCodeToEmail } from "../../util/sendCodeToEmail";
 import { Request, Response } from "express";
 
+
 export const updateUserController = async (req: Request, res: Response) => {
-    const { email, username, newPassword, password, token}: {email: string, username: string, newPassword: string, password: string, token: string} = req.body;
+    const {email, username, password, newPassword} = req.body;
+    const token = req.cookies.token || undefined
 
-    const userDoc: any = await authorizeUser(token, password, res);
+    const userID = jwtService.verifyToken(token);
 
-    if (!userDoc) {
-        return res.status(401).json({ message: "unauthorized" });
+    if (userID === '') {
+        return res.status(401).json({ message: 'Unauthorized' })
     }
 
-    if (userDoc == 'Wrong password.') {
-        return res.status(401).json({ message: userDoc });
+    const userDocument = await userMongooseService.findUser({userID});
+
+    if (!userDocument) {
+        return res.status(500).json({ message: 'Internal server error.' });
     }
 
-    const userID = userDoc.userID
+    if (!email && username && newPassword) {
+        return res.status(400).json({ message: 'email, password or username required' });
+    }
+
+    if (email) {
+        if (email == userDocument.email) {
+            return res.status(400).json({ message: "the email cannot be the same as the previous one" });
+        }
+
+        const isUpdated = await userMongooseService.updateUser({userID}, {email, verified: false});
+
+        if(!isUpdated) {
+            return res.status(500).json({ message: 'Internal server error.' });
+        }
+
+        const isSent = await sendCodeToEmail(email);
+
+        if (!isSent) {
+            return res.status(500).json({message: 'Internal server error.'});
+        }
+
+    }
 
     if (username) {
-        await userMongooseService.updateUser({userID}, {username});
+
+        if (username == userDocument.username) {
+            return res.status(400).json({ message: "the username cannot be the same as the previous one" });
+        }
+
+        const isUpdated = await userMongooseService.updateUser({userID}, {username});
+
+        if(!isUpdated) {
+            return res.status(500).json({ message: 'Internal server error.' });
+        }
     }
 
     if (newPassword) {
-        const hashedPassword = await bcryptService.hashPassword(newPassword);
-        await userMongooseService.updateUser({userID}, {passwordHash: hashedPassword});
-    }
+        const isPasswordMatch = await bcryptService.comparePassword(password, userDocument.passwordHash);
 
-    if(email) {
-        await userMongooseService.updateUser({userID}, {email});
-    }
+        if(!isPasswordMatch) {
+            return res.status(401).json({ message: 'Wrong password' });
+        }
 
-    return res.status(200);
+        const passwordHash = await bcryptService.hashPassword(newPassword);
+
+        if(passwordHash == userDocument.passwordHash) {
+            return res.status(400).json({ message: "the password cannot be the same as the previous one" });
+        }
+
+        const isUpdated = await userMongooseService.updateUser({userID}, {passwordHash});
+
+        if(!isUpdated) {
+            return res.status(500).json({ message: 'Internal server error.' });
+        }
+    }
 }

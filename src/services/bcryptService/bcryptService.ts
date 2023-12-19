@@ -6,6 +6,9 @@ class BcryptService {
     }
 
     comparePassword(password: string, hashedPassword: string) {
+        if(!password) {
+            return false;
+        }
         return bcrypt.compare(password, hashedPassword);
     }
 }

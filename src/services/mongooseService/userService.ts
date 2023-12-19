@@ -1,38 +1,41 @@
-import { userModel } from "../../database/schemas/user.schema";
-import { UserInteface } from "../../util/interfaces";
+import {userModel} from "../../database/schemas/user.schema";
+import {UserInterface} from "../../util/interfaces";
 
 class UserMongooseService {
 
-    async createUser(userData: UserInteface) {
-        const isCreated = await userModel.create(userData);
-        if (!isCreated) {
+    async createUser(userData: UserInterface) {
+        try {
+            await userModel.create(userData);
+            return true;
+        } catch (err) {
             return false;
         }
-        return true;
     }
 
     async findUser(findKey: object) {
-        const userDocument = await userModel.findOne(findKey);
-        if (!userDocument) {
+        try {
+            return await userModel.findOne(findKey);
+        } catch (err) {
             return false;
-        };
-        return userDocument;
+        }
     }
 
     async updateUser(userID: object, update: object) {
-        const isUpdated = await userModel.updateOne( userID, update);
-        if (!isUpdated) {
+        try {
+            await userModel.updateOne(userID, update);
+            return true;
+        } catch (err) {
             return false;
         }
-        return true;
     }
 
     async deleteUser(userID: object) {
-        const isDeleted = await userModel.deleteOne(userID);
-        if (!isDeleted) {
-            return false;
+        try {
+            await userModel.deleteOne(userID);
+            return true;
+        } catch (err) {
+            return false
         }
-        return true;
     }
 }
 

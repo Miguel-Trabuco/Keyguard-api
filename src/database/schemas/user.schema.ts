@@ -1,8 +1,8 @@
 import { Schema, model } from 'mongoose';
-import { UserInteface } from '../../util/interfaces';
+import { UserInterface } from '../../util/interfaces';
 
 
-const UserSchema = new Schema<UserInteface>({
+const UserSchema = new Schema<UserInterface>({
     userID: {
         type: String,
         required: true,
@@ -19,6 +19,10 @@ const UserSchema = new Schema<UserInteface>({
         type: String,
         required: true,
     },
+    verified: {
+        type: Boolean,
+        required: false
+    },
     createdAt: {
         type: Date,
         default: new Date(),
@@ -29,4 +33,4 @@ const UserSchema = new Schema<UserInteface>({
     }
 });
 
-export const userModel = model<UserInteface>('User', UserSchema);
+export const userModel = model<UserInterface>('User', UserSchema);
