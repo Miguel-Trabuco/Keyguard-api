@@ -76,4 +76,12 @@ export const updateUserController = async (req: Request, res: Response) => {
             return res.status(500).json({ message: 'Internal server error.' });
         }
     }
+
+    const isUpdated = await userMongooseService.updateUser({userID}, {updatedAt: new Date()});
+
+    if(!isUpdated) {
+        return res.status(500).json({ message: 'Internal server error.' });
+    }
+
+    return res.status(200);
 }

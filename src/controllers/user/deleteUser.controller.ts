@@ -1,28 +1,37 @@
 import { Request, Response } from "express";
-import { authorizeUser } from "../../util/authorizeUser";
 import { userMongooseService } from "../../services/mongooseService/userService";
+import {keyMongooseService} from "../../services/mongooseService/keyService";
+import { jwtService } from "../../services/jwtService/jwtService";
+import { bcryptService } from "../../services/bcryptService/bcryptService";
 
 export const deleteUserController = async (req: Request, res: Response) => {
-    const password: string | undefined = req.get('password');
-    const token: string | undefined = req.get('token');
+    const password = req.body.password;
+    const token = req.cookies.token || undefined
 
-    const userDoc: any = await authorizeUser(token, password, res);
+    const userID = jwtService.verifyToken(token);
 
-    if (!userDoc) {
-        return res.status(401).json({ message: "unauthorized" });
+    if (userID === '') {
+        return res.status(401).json({ message: 'Unauthorized' })
     }
 
-    if (userDoc == 'Wrong password.') {
-        return res.status(401).json({ message: userDoc });
+    const userDocument = await userMongooseService.findUser({userID});
+
+    if (!userDocument) {
+        return res.status(500).json({ message: 'Internal server error.' });
     }
 
-    const userID = userDoc.userID
+    const isPasswordMatch = await bcryptService.comparePassword(password, userDocument.passwordHash);
 
-    const isDeleted = await userMongooseService.deleteUser({userID});
-
-    if (!isDeleted) {
-        return res.status(500).json({ message: "Internal server error." });
+    if (!isPasswordMatch) {
+        return res.status(400).json({ message: 'Wrong password' });
     }
 
-    return res.status(200);
+    const isDeletedUser = await userMongooseService.deleteUser({userID});
+    const isDeletedKeys = await keyMongooseService.deleteKeys({userID});
+
+    if (!isDeletedUser || !isDeletedKeys){
+        return res.status(500).json({ message: 'Internal server error.' });
+    }
+
+    return res.status(200).clearCookie('token');
 }

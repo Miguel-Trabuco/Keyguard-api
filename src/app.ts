@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import { connectDB } from "./database/connectDB";
 
 import { userRouter } from "./routes/userRoutes";
+import { keyRouter } from "./routes/keyRoutes";
 
 const PORT: number = parseInt(process.env.PORT as string, 10);
 
@@ -14,6 +15,7 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use('/user', userRouter);
+app.use('/key', keyRouter);
 
 app.listen(PORT, () => {
     console.log(`Server is listening on port ${PORT}`);
