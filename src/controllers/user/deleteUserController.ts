@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { userMongooseService } from "../../services/mongooseService/userService";
-import {keyMongooseService} from "../../services/mongooseService/keyService";
+import { keyMongooseService } from "../../services/mongooseService/keyService";
 import { jwtService } from "../../services/jwtService/jwtService";
 import { bcryptService } from "../../services/bcryptService/bcryptService";
 

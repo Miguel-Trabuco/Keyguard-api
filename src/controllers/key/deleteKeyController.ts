@@ -1,6 +1,6 @@
-import {keyMongooseService} from "../../services/mongooseService/keyService";
-import {jwtService} from "../../services/jwtService/jwtService";
-import {Request, Response} from "express";
+import { keyMongooseService } from "../../services/mongooseService/keyService";
+import { jwtService } from "../../services/jwtService/jwtService";
+import { Request, Response } from "express";
 
 export const deleteKeyController = async (req: Request, res: Response) => {
     const { keyID } = req.body;

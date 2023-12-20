@@ -1,7 +1,7 @@
-import {verificationCodeMongooseService} from "../../services/mongooseService/verificationCodeService";
-import {userMongooseService} from "../../services/mongooseService/userService";
-import {jwtService} from "../../services/jwtService/jwtService";
-import {Request, Response} from "express";
+import { verificationCodeMongooseService } from "../../services/mongooseService/verificationCodeService";
+import { userMongooseService } from "../../services/mongooseService/userService";
+import { jwtService } from "../../services/jwtService/jwtService";
+import { Request, Response } from "express";
 
 export const verifyEmailController = async (req: Request, res: Response) => {
     const code = req.body.code;

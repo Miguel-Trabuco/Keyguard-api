@@ -6,6 +6,7 @@ class KeyMongooseService {
         try {
             await keyModel.create(keyData);
             return true;
+
         } catch (err) {
             return false;
         }
@@ -14,6 +15,7 @@ class KeyMongooseService {
     async findKeys(userID: object) {
         try {
             return await keyModel.find(userID);
+
         } catch (err) {
             return false;
         }
@@ -23,6 +25,7 @@ class KeyMongooseService {
         try {
             await keyModel.updateOne(keyID, update);
             return true;
+
         } catch (err) {
             return false;
         }
@@ -32,6 +35,7 @@ class KeyMongooseService {
         try {
             await keyModel.deleteOne(keyID);
             return true;
+
         } catch (err) {
             return false
         }
@@ -41,6 +45,7 @@ class KeyMongooseService {
         try {
             await keyModel.deleteMany(userID);
             return true;
+
         } catch (err) {
             return false
         }

@@ -1,9 +1,9 @@
 import express from "express";
 
-import { createKeyController } from "../controllers/key/createKey.controller";
-import { updateKeyController } from "../controllers/key/updateKey.controller";
-import { getKeysController } from "../controllers/key/getKeys.controller";
-import { deleteKeyController } from "../controllers/key/deleteKey.controller";
+import { createKeyController } from "../controllers/key/createKeyController";
+import { updateKeyController } from "../controllers/key/updateKeyController";
+import { getKeysController } from "../controllers/key/getKeysController";
+import { deleteKeyController } from "../controllers/key/deleteKeyController";
 const keyRouter = express.Router();
 
 keyRouter.post('/createKey', (req, res) => {

@@ -1,5 +1,5 @@
 import { userMongooseService } from "../../services/mongooseService/userService";
-import {jwtService} from "../../services/jwtService/jwtService";
+import { jwtService } from "../../services/jwtService/jwtService";
 import { bcryptService } from "../../services/bcryptService/bcryptService";
 import { sendCodeToEmail } from "../../util/sendCodeToEmail";
 import { Request, Response } from "express";

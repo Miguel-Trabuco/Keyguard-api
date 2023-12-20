@@ -4,6 +4,7 @@ import { Random } from "random-js";
 const random = new Random();
 
 export const sendCodeToEmail = async (email: string) => {
+
     const code = random.integer(1, 99999);
 
     const codeData = {
@@ -17,7 +18,9 @@ export const sendCodeToEmail = async (email: string) => {
         await verificationCodeMongooseService.createCode(codeData);
         sendMail(email, html, 'Verify your account');
         return true
+
     } catch (err) {
         return false
     }
+
 }

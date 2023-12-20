@@ -17,6 +17,7 @@ class JWTService {
         try {
             const userID = jwt.verify(token, this.SECRET);
             return userID as string
+
         } catch (error) {
             return '';
         }

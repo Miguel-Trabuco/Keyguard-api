@@ -1,12 +1,12 @@
 import express from "express";
 const userRouter = express.Router();
 
-import { createUserController } from "../controllers/user/createUser.controller";
-import { updateUserController } from "../controllers/user/updateUser.controller";
-import { getUserController } from "../controllers/user/getUser.controller";
-import { deleteUserController } from "../controllers/user/deleteUser.controller";
+import { createUserController } from "../controllers/user/createUserController";
+import { updateUserController } from "../controllers/user/updateUserController";
+import { getUserController } from "../controllers/user/getUserController";
+import { deleteUserController } from "../controllers/user/deleteUserController";
 import { loginController } from "../controllers/user/login.controller";
-import { loggoutController } from "../controllers/user/loggout.controller";
+import { logoutController } from "../controllers/user/logoutController";
 
 userRouter.post('/createUser', (req, res) => {
     return createUserController(req, res);
@@ -28,8 +28,8 @@ userRouter.post('/login', (req, res) => {
     return loginController(req, res);
 });
 
-userRouter.get('/loggout', (req, res) => {
-    return loggoutController(req, res);
+userRouter.get('/logout', (req, res) => {
+    return logoutController(req, res);
 });
 
 export { userRouter };

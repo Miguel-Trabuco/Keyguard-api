@@ -1,6 +1,7 @@
 import bcrypt from 'bcrypt';
 
 class BcryptService {
+
     hashPassword(password: string) {
         return bcrypt.hash(password, 10);
     }
@@ -9,6 +10,7 @@ class BcryptService {
         if(!password) {
             return false;
         }
+
         return bcrypt.compare(password, hashedPassword);
     }
 }

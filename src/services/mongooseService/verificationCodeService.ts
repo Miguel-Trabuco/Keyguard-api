@@ -7,6 +7,7 @@ class VerificationCodeService {
         try {
             await verificationCodeModel.create(codeData);
             return true;
+
         } catch (err) {
             return false;
         }
@@ -15,6 +16,7 @@ class VerificationCodeService {
     async findCode(email: object) {
         try {
             return await verificationCodeModel.findOne(email);
+
         } catch (err) {
             return false;
         }
@@ -24,6 +26,7 @@ class VerificationCodeService {
         try {
             await verificationCodeModel.deleteOne(email);
             return true;
+
         } catch (err) {
             return false;
         }

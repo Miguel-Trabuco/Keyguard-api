@@ -21,9 +21,10 @@ export const sendMail = (email: string, html: string, title: string) => {
     };
 
     try {
+        transporter.sendMail(emailOptions);
+        return true
 
     } catch (err) {
-        
+        return false
     }
 }
-

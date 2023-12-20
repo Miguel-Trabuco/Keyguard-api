@@ -1,7 +1,7 @@
-import {jwtService} from "../../services/jwtService/jwtService";
-import {Request, Response} from "express";
+import { jwtService } from "../../services/jwtService/jwtService";
+import { Request, Response } from "express";
 
-export const loggoutController = async (req: Request, res: Response) => {
+export const logoutController = async (req: Request, res: Response) => {
     const token = req.cookies.token || undefined
 
     const userID = jwtService.verifyToken(token);

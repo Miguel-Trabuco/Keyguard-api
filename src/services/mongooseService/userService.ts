@@ -1,5 +1,5 @@
-import {userModel} from "../../database/schemas/user.schema";
-import {UserInterface} from "../../util/interfaces";
+import { userModel } from "../../database/schemas/user.schema";
+import { UserInterface } from "../../util/interfaces";
 
 class UserMongooseService {
 
@@ -7,6 +7,7 @@ class UserMongooseService {
         try {
             await userModel.create(userData);
             return true;
+
         } catch (err) {
             return false;
         }
@@ -15,6 +16,7 @@ class UserMongooseService {
     async findUser(findKey: object) {
         try {
             return await userModel.findOne(findKey);
+
         } catch (err) {
             return false;
         }
@@ -24,6 +26,7 @@ class UserMongooseService {
         try {
             await userModel.updateOne(userID, update);
             return true;
+
         } catch (err) {
             return false;
         }
@@ -33,6 +36,7 @@ class UserMongooseService {
         try {
             await userModel.deleteOne(userID);
             return true;
+
         } catch (err) {
             return false
         }

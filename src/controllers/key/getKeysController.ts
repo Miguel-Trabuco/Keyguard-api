@@ -1,6 +1,6 @@
-import {keyMongooseService} from "../../services/mongooseService/keyService";
-import {jwtService} from "../../services/jwtService/jwtService";
-import {Request, Response} from "express";
+import { keyMongooseService } from "../../services/mongooseService/keyService";
+import { jwtService } from "../../services/jwtService/jwtService";
+import { Request, Response } from "express";
 
 export const getKeysController = async (req: Request, res: Response) => {
     const token = req.cookies.token || undefined
