@@ -10,7 +10,7 @@ export interface UserInterface {
 
 export interface VerificationCodeInterface {
     email: string;
-    code: number;
+    code: string;
     createdAt?: Date;
 }
 

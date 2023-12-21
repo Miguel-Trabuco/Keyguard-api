@@ -5,7 +5,7 @@ const MAIL_PASSWORD = process.env.MAIL_PASSWORD || '';
 const transporter = nodemailer.createTransport({
     host: 'smtp.mailersend.net',
     port: 587,
-    secure: true,
+    secure: false,
     auth: {
         user: MAIL_USER,
         pass: MAIL_PASSWORD,
@@ -14,7 +14,7 @@ const transporter = nodemailer.createTransport({
 
 export const sendMail = (email: string, html: string, title: string) => {
     const emailOptions = {
-        from: "Keyguard",
+        from: '"Keyguard" noreply@keyguard.software',
         to: email,
         subject: title,
         html: html

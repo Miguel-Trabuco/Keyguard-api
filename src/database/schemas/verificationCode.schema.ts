@@ -8,7 +8,7 @@ const VerificationCodeSchema = new Schema<VerificationCodeInterface>({
         unique: true
     },
     code: {
-        type: Number,
+        type: String,
         required: true
     },
     createdAt: {
