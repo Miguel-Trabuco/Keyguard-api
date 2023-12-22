@@ -1,10 +1,10 @@
 import jwt from 'jsonwebtoken';
 
-const SECRET = process.env.JWT_SECRET;
+const SECRET = process.env.JWT_SECRET as string;
 
 class JWTService {
 
-    SECRET!: string;
+    SECRET: string;
 
     createToken(userID: string) {
         return jwt.sign(userID, this.SECRET);
@@ -24,9 +24,7 @@ class JWTService {
     }
 
     constructor() {
-        if (SECRET) {
-            this.SECRET = SECRET;
-        }
+        this.SECRET = SECRET;
     }
 }
 

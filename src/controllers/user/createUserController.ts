@@ -4,7 +4,7 @@ import { bcryptService } from "../../services/bcryptService/bcryptService";
 import { v4 as uuid } from 'uuid';
 import { Request, Response } from "express";
 import { UserInterface } from "../../util/interfaces";
-import { sendCodeToEmail } from "../../util/sendCodeToEmail";
+//import { sendCodeToEmail } from "../../util/sendCodeToEmail";
 
 export const createUserController = async (req: Request, res: Response) => {
     const { email, username, password}: {email: string, username: string, password: string} = req.body;
@@ -43,11 +43,11 @@ export const createUserController = async (req: Request, res: Response) => {
         return res.status(500).json({ message: 'Internal server error.' });
     }
 
-    const isSent = await sendCodeToEmail(email);
+    //const isSent: boolean = await sendCodeToEmail(email);
 
-    if(!isSent) {
-        return res.status(500).json({ message: 'Internal server error.' });
-    }
+    //if(!isSent) {
+    //    return res.status(500).json({ message: 'Internal server error.' });
+    //}
 
-    return res.status(201).cookie('token', token, {httpOnly: true, secure: false});
+    return res.status(201).cookie('token', token, { httpOnly: true, secure: false }).send();
 }

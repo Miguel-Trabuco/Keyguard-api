@@ -12,7 +12,7 @@ export const updateUserController = async (req: Request, res: Response) => {
     const userID = jwtService.verifyToken(token);
 
     if (userID === '') {
-        return res.status(401).json({ message: 'Unauthorized' })
+        return res.status(401).json({ message: 'Unauthorized' });
     }
 
     const userDocument = await userMongooseService.findUser({userID});
@@ -21,8 +21,8 @@ export const updateUserController = async (req: Request, res: Response) => {
         return res.status(500).json({ message: 'Internal server error.' });
     }
 
-    if (!email && username && newPassword) {
-        return res.status(400).json({ message: 'email, password or username required' });
+    if (!email && !username && !newPassword) {
+        return res.status(400).json({ message: 'email, password or username is required' });
     }
 
     if (email) {
@@ -83,5 +83,5 @@ export const updateUserController = async (req: Request, res: Response) => {
         return res.status(500).json({ message: 'Internal server error.' });
     }
 
-    return res.status(200);
+    return res.status(200).send();
 }

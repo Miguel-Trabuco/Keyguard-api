@@ -20,6 +20,7 @@ export const getUserController = async (req: Request, res: Response) => {
     const userInformation = {
         email: userDocument.email,
         name: userDocument.username,
+        verified: userDocument.verified
     };
 
     res.status(200).json(userInformation);
