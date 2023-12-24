@@ -10,5 +10,5 @@ export const logoutController = async (req: Request, res: Response) => {
         return res.status(401).json({message: 'Unauthorized'})
     }
 
-    return res.status(200).clearCookie('token');
+    return res.status(200).clearCookie('token').send();
 }

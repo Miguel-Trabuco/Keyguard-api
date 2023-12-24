@@ -27,5 +27,5 @@ export const loginController = async (req: Request, res: Response) => {
 
     const newToken = jwtService.createToken(userDocument.userID);
 
-    return res.status(200).cookie('token', newToken, {httpOnly: true, secure: false});
+    return res.status(200).cookie('token', newToken, {httpOnly: true, secure: false}).send();
 }

@@ -33,5 +33,5 @@ export const deleteUserController = async (req: Request, res: Response) => {
         return res.status(500).json({ message: 'Internal server error.' });
     }
 
-    return res.status(200).clearCookie('token');
+    return res.status(200).clearCookie('token').send();
 }

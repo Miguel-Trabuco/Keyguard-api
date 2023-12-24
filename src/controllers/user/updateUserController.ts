@@ -36,11 +36,11 @@ export const updateUserController = async (req: Request, res: Response) => {
             return res.status(500).json({ message: 'Internal server error.' });
         }
 
-        const isSent = await sendCodeToEmail(email);
+       // const isSent = await sendCodeToEmail(email);
 
-        if (!isSent) {
-            return res.status(500).json({message: 'Internal server error.'});
-        }
+        //if (!isSent) {
+         //   return res.status(500).json({message: 'Internal server error.'});
+       // }
 
     }
 
